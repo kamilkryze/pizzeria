@@ -51,6 +51,7 @@
   const templates = {
     menuProduct: Handlebars.compile(document.querySelector(select.templateOf.menuProduct).innerHTML),
   };
+  
 
   class Product{
     constructor(id, data){
@@ -58,8 +59,9 @@
       thisProduct.id = id;
       thisProduct.data = data;
       thisProduct.renderInMenu();
+      thisProduct.initAccordion();
       console.log('new Product:', thisProduct);
-    }
+    },
       renderInMenu(){
         const thisProduct = this;
         // generate HTML based on tempalte
@@ -70,9 +72,45 @@
         const menuContainer = document.querySelector(select.containerOf.menu);
         // add element to menu
         menuContainer.appendChild(thisProduct.element);
-      }
-    
+      },
+    initAccordion(){
+      const thisProduct = this;
+       /* find the clickable trigger (the element that should react to clicking) */
+       // const productHeader = 'product_header';
+      
+       // const clickableTrigger = document.getQuerySelector(productHeader);
+      
+        const clickableTrigger = classNames.menuProduct.wrapperActive
+
+      /* START: add event listener to clickable trigger on event click */
+      clickableTrigger.addEventListener('click', function(event) {
+        
+      /* prevent default action for event */
+      event.preventDefault();
+        
+      /* find active product (product that has active class) */
+      // document.thisProduct.activeElement
+        classNames.menuProduct.wrapperActive 
+        
+      /* if there is active product and it's not thisProduct.element, remove class active from it */
+      // productHeader.classList.remove('active'); 
+        classNames.menuProduct.wrapperActive.classList.remove('active');
+      /* toggle active class on thisProduct.element */
+        thisProduct.classList.toggle('active'); 
+    });
+
   }
+}
+    }
+}
+
+/* 7.5 Do rozwiązania tego zadania przydadzą Ci się te informacje:
+
+aby odnaleźć clickableTrigger, użyj selektora select.menuProduct.clickable,
+zastanów się, czy szukać elementu clickableTrigger w całym dokumencie, czy może jednak dokładniej?
+element bieżącego produktu to thisProduct.element, czyli to na tym elemencie będziemy dodawać i usuwać (toggle) klasę zdefiniowaną w select.menuProduct.clickable,
+aby sprawdzić, czy dany element DOM udało się znaleźć, wystarczy sprawdzić, czy nie jest nullem if(activeProduct),
+do sprawdzenia, czy dany aktywny produkt jest różny od elementu bieżącego produktu, wystarczy wykorzystać takiego samego operatora porównania, jak przy porównywaniu liczb.*/
 
   const app = {
     initMenu: function(){
