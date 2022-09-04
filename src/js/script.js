@@ -85,6 +85,7 @@
   thisProduct.formInputs = thisProduct.form.querySelectorAll(select.all.formInputs);
   thisProduct.cartButton = thisProduct.element.querySelector(select.menuProduct.cartButton);
   thisProduct.priceElem = thisProduct.element.querySelector(select.menuProduct.priceElem);
+  thisProduct.imageWrapper = thisProduct.element.querySelector(select.menuProduct.imageWrapper);
 },
     
     initAccordion(){
@@ -151,6 +152,7 @@ thisProduct.cartButton.addEventListener('click', function(event){
      // convert form to object structure e.g. { sauce: ['tomato'], toppings: ['olives', 'redPeppers']}
   const formData = utils.serializeFormToObject(thisProduct.form);
   console.log('formData', formData);
+  const optionImage = thisProduct.imageWrapper.querySelector(???);
 
   // set price to default price
   let price = thisProduct.data.price;
@@ -170,6 +172,13 @@ thisProduct.cartButton.addEventListener('click', function(event){
   // check if there is param with a name of paramId in formData and if it includes optionId
   if(formData[paramId] && formData[paramId].includes(optionId)) {
     // check if the option is not default
+    
+    if(optionImage) {
+    thisProduct.imageWrapper.classList.add('active') // classNames.menuProduct.imageVisible
+      
+    // Jak usunac zaznaczony obrazek?
+    }
+    
     if(optionId[price] == false) {
        
       // add option price to price variable
