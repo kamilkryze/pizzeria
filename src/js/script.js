@@ -91,9 +91,9 @@
     initAccordion(){
       const thisProduct = this;
        /* find the clickable trigger (the element that should react to clicking) */
-       // const productHeader = 'product_header';
+       // const productHeader = '.product_header';
       
-       // const clickableTrigger = document.getQuerySelector(productHeader);
+       // const clickableTrigger = thisProduct.element.querySelector(productHeader);
       
        const clickableTrigger = classNames.menuProduct.wrapperActive
 
@@ -104,7 +104,7 @@
       event.preventDefault();
         
       /* find active product (product that has active class) */
-      // document.thisProduct.activeElement
+      // document.thisProduct.querySelector(activeElement);
         classNames.menuProduct.wrapperActive 
         
       /* if there is active product and it's not thisProduct.element, remove class active from it */
