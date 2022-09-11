@@ -98,6 +98,7 @@
       thisProduct.initOrderForm();
       thisProduct.initAmountWidget();
       thisProduct.processOrder();
+      
       console.log('new Product:', thisProduct);
     }
 
@@ -122,7 +123,8 @@
       thisProduct.cartButton = thisProduct.element.querySelector(select.menuProduct.cartButton);
       thisProduct.priceElem = thisProduct.element.querySelector(select.menuProduct.priceElem);
       thisProduct.imageWrapper = thisProduct.element.querySelector(select.menuProduct.imageWrapper);
-      thisProduct.amountWidget = thisProduct.element.querySelector(select.menuProduct.amountWidget);
+      thisProduct.amountWidgetElem = thisProduct.element.querySelector(select.menuProduct.amountWidget);
+      thisProduct.amountWidgetElem.addEventListener("updated", thisProduct.processOrder);
     }
 
     initAccordion() {
@@ -290,13 +292,9 @@
       thisWidget.value = newValue;
       thisWidget.input.value = thisWidget.value;
 
-      if(thisWidget.value !== newValue && !isNaN(newValue)){
-        thisWidget.value = newValue;
-
-        if thisWidget.value > thisWidget.element.querySelector(settings.amountWidget.defaultMax)
-          return defaultMax
-        if thisWidget.value < thisWidget.element.querySelector(settings.amountWidget.defaultMin)
-          return defaultMin
+      if(thisWidget.value !== newValue && !isNaN(newValue)
+       && newValue < settings.amountWidget.defaultMax
+      && newValue > settings.amountWidget.defaultMin)
 
       thisWidget.announce();
 
@@ -305,18 +303,16 @@
     initActions(){
     const thisWidget = this;
 
-    thisWidget.input.addEventListener("change", setValue);
+    thisWidget.input.addEventListener("change", function() { setValue(thisWidget.input.value); });
     thisWidget.linkDecrease.addEventListener('click', function(event)){
-      event.preventDefault{
-         thisWidget.value = input -1;
-      }
-      }
+      event.preventDefault();
+      setValue(thisWidget.value - 1);
+    };
     thisWidget.linkIncrease.addEventListener('click', function(event)){
-      event.preventDefault{
-        thisWidget.value = input +1;
-      }
-    }
-  }
+      event.preventDefault();
+      setValue(thisWidget.value + 1);
+    };
+
     announce(){
       const thisWidget = this;
 

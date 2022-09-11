@@ -98,6 +98,7 @@
       thisProduct.initOrderForm();
       thisProduct.initAmountWidget();
       thisProduct.processOrder();
+      
       console.log('new Product:', thisProduct);
     }
 
@@ -122,7 +123,8 @@
       thisProduct.cartButton = thisProduct.element.querySelector(select.menuProduct.cartButton);
       thisProduct.priceElem = thisProduct.element.querySelector(select.menuProduct.priceElem);
       thisProduct.imageWrapper = thisProduct.element.querySelector(select.menuProduct.imageWrapper);
-      thisProduct.amountWidget = thisProduct.element.querySelector(select.menuProduct.amountWidget);
+      thisProduct.amountWidgetElem = thisProduct.element.querySelector(select.menuProduct.amountWidget);
+      thisProduct.amountWidgetElem.addEventListener("updated", thisProduct.processOrder);
     }
 
     initAccordion() {
@@ -231,6 +233,33 @@
     }
   }
 
+  class Cart {
+    constructor(element){
+    const thisCart = this;
+    thisCart.initActions();
+
+    thisCart.products = [];
+
+    thisCart.getElements(element);
+
+    console.log('new Cart', thisCart);
+    }
+    getElements(element){
+      const thisCart = this;
+
+      thisCart.dom = {};
+
+      thisCart.dom.wrapper = element;
+    }
+    initActions(){
+      const thisCart = this;
+      thisCart.dom.toggleTrigger.addEventListener('click', function()){
+        thisCart.dom.wrapper.toggle(classNames.cart.wrapperActive);
+      }
+
+  }
+};
+
   const app = {
     initMenu: function () {
       const thisApp = this;
@@ -240,6 +269,13 @@
         new Product(productData, thisApp.data.products[productData]);
       }
     },
+
+    initCart: function(){
+      const thisApp = this;
+
+      const cartElem = document.querySelector(select.containerOf.cart);
+      thisApp.cart = new Cart(cartElem);
+    }
 
     init: function () {
       const thisApp = this;
@@ -280,6 +316,7 @@
       thisWidget.input = thisWidget.element.querySelector(select.widgets.amount.input);
       thisWidget.linkDecrease = thisWidget.element.querySelector(select.widgets.amount.linkDecrease);
       thisWidget.linkIncrease = thisWidget.element.querySelector(select.widgets.amount.linkIncrease);
+      thisCart.dom.toggleTrigger = thisCart.dom.wrapper.querySelector(select.cart.toggleTrigger);
     }
 
     setValue(value){
@@ -290,13 +327,9 @@
       thisWidget.value = newValue;
       thisWidget.input.value = thisWidget.value;
 
-      if(thisWidget.value !== newValue && !isNaN(newValue)){
-        thisWidget.value = newValue;
-
-        if thisWidget.value > thisWidget.element.querySelector(settings.amountWidget.defaultMax)
-          return defaultMax
-        if thisWidget.value < thisWidget.element.querySelector(settings.amountWidget.defaultMin)
-          return defaultMin
+      if(thisWidget.value !== newValue && !isNaN(newValue)
+       && newValue < settings.amountWidget.defaultMax
+      && newValue > settings.amountWidget.defaultMin)
 
       thisWidget.announce();
 
@@ -305,18 +338,16 @@
     initActions(){
     const thisWidget = this;
 
-    thisWidget.input.addEventListener("change", setValue);
+    thisWidget.input.addEventListener("change", function() { setValue(thisWidget.input.value); });
     thisWidget.linkDecrease.addEventListener('click', function(event)){
-      event.preventDefault{
-         thisWidget.value = input -1;
-      }
-      }
+      event.preventDefault();
+      setValue(thisWidget.value - 1);
+    };
     thisWidget.linkIncrease.addEventListener('click', function(event)){
-      event.preventDefault{
-        thisWidget.value = input +1;
-      }
-    }
-  }
+      event.preventDefault();
+      setValue(thisWidget.value + 1);
+    };
+
     announce(){
       const thisWidget = this;
 
@@ -326,4 +357,5 @@
   }
   app.init();
 
-}
+};
+
