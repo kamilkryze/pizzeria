@@ -49,7 +49,7 @@
       amountWidget: '.widget-amount',
       price: '.cart__product-price',
       edit: '[href="#edit"]',
-      remove: '[href="#remove"]',
+      remove: '[href="#remove"]', 
     },
     // CODE ADDED END
   };
@@ -254,12 +254,12 @@
   const thisProduct = this;
   
   productSummary = {
-    amount: thisWidget.input
-    id: thisProduct.id; 
-    name: thisProduct.data.name;
-    price: thisProduct.priceElem.innerHTML = price;
-    priceSingle: thisProduct.data.price
-    params = {};
+    amount: thisWidget.input,
+    id: thisProduct.id,
+    name: thisProduct.data.name,
+    price: thisProduct.priceElem.innerHTML = price,
+    priceSingle: thisProduct.data.price,
+    params = {},
     return productSummary;
    };
  
@@ -299,11 +299,11 @@ prepareCartProductParams() {
 
   class Cart {
     constructor(element){
-    const thisCart = this;
-    thisCart.initActions();
-    thisCart.products = [];
-    thisCart.getElements(element);
-    console.log('new Cart', thisCart);
+      const thisCart = this;
+      thisCart.initActions();
+      thisCart.products = [];
+      thisCart.getElements(element);
+      console.log('new Cart', thisCart);
     }
     
     getElements(element){
@@ -324,7 +324,42 @@ prepareCartProductParams() {
      const thisCart = this;
        
      console.log('adding product', menuProduct);
+
+     thisCart.products.push(new CartProduct(menuProduct, generatedDOM));
+     console.log('thisCart.products', thisCart.products);
+
      }
+
+
+  class CartProduct{
+    constructor(menuProduct, element){
+      const thisCartProduct = this;
+      thisCartProduct.amount = 
+      thisCartProduct.id = menuProduct.id;
+      thisCartProduct.name = menuProduct.data.name;
+      thisCartProduct.price = menuProduct.price;
+      thisCartProduct.getElements(element);
+      initCartProduct();
+    }
+    getElements(element){
+      const thisCartProduct = this;
+      console.log('thisCartProduct', thisCartProduct);
+      thisCartProduct.dom = {
+        wrapper: element,
+        amount: document.querySelector(select.cartProduct.amountWidget),
+        price: document.querySelector(select.cartProduct.price),
+        edit: document.querySelector(select.cartProduct.edit),
+        remove: document.querySelector(select.cartProduct.remove),
+      }
+    }
+    initCartProduct() {
+      const thisCartProduct = this;
+  
+      thisCartProduct.amountWidget = new AmountWidget(thisCartProduct.amountWidgetElem);
+      thisCartProduct.amount = 
+      thisCartProduct.price =  
+      thisCartProduct.price = price *= thisCartProduct.amountWidget;
+  }
 
   const app = {
     initMenu: function () {
@@ -423,5 +458,4 @@ setValue(value){
   }
   app.init();
 
-};
-
+}
