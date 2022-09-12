@@ -250,15 +250,13 @@
       thisCart.dom = {};
 
       thisCart.dom.wrapper = element;
+      thisCart.dom.toggleTrigger = thisCart.dom.wrapper.querySelector(select.cart.toggleTrigger);
     }
     initActions(){
       const thisCart = this;
-      thisCart.dom.toggleTrigger.addEventListener('click', function()){
+      thisCart.dom.toggleTrigger.addEventListener('click', function(){
         thisCart.dom.wrapper.toggle(classNames.cart.wrapperActive);
-      }
-
-  }
-};
+      });
 
   const app = {
     initMenu: function () {
@@ -275,7 +273,7 @@
 
       const cartElem = document.querySelector(select.containerOf.cart);
       thisApp.cart = new Cart(cartElem);
-    }
+    },
 
     init: function () {
       const thisApp = this;
@@ -316,10 +314,9 @@
       thisWidget.input = thisWidget.element.querySelector(select.widgets.amount.input);
       thisWidget.linkDecrease = thisWidget.element.querySelector(select.widgets.amount.linkDecrease);
       thisWidget.linkIncrease = thisWidget.element.querySelector(select.widgets.amount.linkIncrease);
-      thisCart.dom.toggleTrigger = thisCart.dom.wrapper.querySelector(select.cart.toggleTrigger);
     }
 
-    setValue(value){
+setValue(value){
       const thisWidget = this;
       
       const newValue = parseInt(value);
@@ -327,26 +324,27 @@
       thisWidget.value = newValue;
       thisWidget.input.value = thisWidget.value;
 
-      if(thisWidget.value !== newValue && !isNaN(newValue)
-       && newValue < settings.amountWidget.defaultMax
-      && newValue > settings.amountWidget.defaultMin)
-
-      thisWidget.announce();
-
+      if(thisWidget.value !== newValue && !isNaN(newValue) && newValue < settings.amountWidget.defaultMax && newValue > settings.amountWidget.defaultMin) {
+        thisWidget.value = newValue;
       }
+
+      thisWidget.input.value = thisWidget.value;
+      thisWidget.announce();
     }
-    initActions(){
+    
+   initActions(){
     const thisWidget = this;
 
     thisWidget.input.addEventListener("change", function() { setValue(thisWidget.input.value); });
-    thisWidget.linkDecrease.addEventListener('click', function(event)){
+    thisWidget.linkDecrease.addEventListener('click', function(event){
       event.preventDefault();
       setValue(thisWidget.value - 1);
-    };
-    thisWidget.linkIncrease.addEventListener('click', function(event)){
+    });
+    thisWidget.linkIncrease.addEventListener('click', function(event){
       event.preventDefault();
       setValue(thisWidget.value + 1);
-    };
+    });
+  }
 
     announce(){
       const thisWidget = this;
