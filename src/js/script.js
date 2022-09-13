@@ -388,6 +388,36 @@ prepareCartProductParams() {
       thisCartProduct.price =  
       thisCartProduct.price = price *= thisCartProduct.amountWidget;
   }
+    
+    remove(){
+      const thisCartProduct = this;
+      const event = new CustomEvent('remove', {
+        bubbles: true,
+        detail: {
+          cartProdcut: thisCartProduct,
+        },
+      });
+      thisCartProduct.dom.wrapper.dispatchEvent(event);
+      
+      const thisCart.products = thisCart.dom.productList = thisProduct.querySelector(select.menuProducts.product).innerHTML);
+       thisCartProduct.remove();
+      
+       thisCart.update();
+    }
+    
+    initActions(){
+      const thisCartProduct = this;
+      constructor(){
+      thisCartProduct.initActions();
+      }
+      thisCartProduct.dom.edit.addEventListener('click', {
+       event.preventDefault()
+      });
+      thisCartProduct.dom.remove.addEventListener('click', {
+       event.preventDefault()
+       thisCartProduct.remove()
+      });
+    }
 
   const app = {
     initMenu: function () {
