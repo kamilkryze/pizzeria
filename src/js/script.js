@@ -450,6 +450,34 @@
       thisCart.dom.productList.addEventListener('remove', function(event){
         thisCart.remove(event.detail.cartProduct);
       });
+      thisCart.dom.form.addEventListener('submit', function(event){
+        event.preventDefault();
+        thisCart.sendOrder()
+      })
+    }
+
+    sendOrder(){
+      const thisCart = this;
+
+      const url = settings.db.url + '/' + settings.db.orders;
+
+      thisCart.totalPrice.getValue();
+      thisCart.totalNumber.getValue();
+      thisCart.subtotalPrice.getValue();
+
+      for(let prod of thisCart.products) {
+        payload.products.push(prod.getData());
+      }
+
+      const options = {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(payload),
+      };
+      
+      fetch(url, options);
     }
 
     add(menuProduct){
@@ -536,6 +564,20 @@
 
       // console.log(thisCartProduct);
     }
+
+    getData(){
+      const thisCartProduct = this;
+
+      const cartProductSummary = {
+        id: thisProduct.id,
+        name: thisProduct.data.name,
+        amount: thisProduct.amountWidget.value,
+        priceSingle: thisProduct.priceSingle, 
+        price: thisProduct.amountWidget.value * thisProduct.priceSingle,
+        params: thisProduct.prepareCartProductParams(),
+      };
+    }
+
 
     getElements(element){
       const thisCartProduct = this;
